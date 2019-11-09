@@ -1,5 +1,6 @@
 'use strict';
 
+//Books Repository
 let bookCatalog =
 [
     {
@@ -92,26 +93,29 @@ let bookCatalog =
     }
 ];
 
-let newBook = ' (nauja knyga)';
 
+
+//Pick correct Lt measure for books qty in category
 function pickLtBooksWord(number) {
-    let booksInLtLang = '';
+    let booksLtWord = '';
     switch (number % 10){
         case 0:
-            booksInLtLang = ' knygų)';
+            booksLtWord = ' knygų)';
             break;
         case 1:
-            booksInLtLang = ' knyga)';
+            booksLtWord = ' knyga)';
             break;
         default:
-            booksInLtLang = ' knygos)';
+            booksLtWord = ' knygos)';
     }
-    return booksInLtLang;
+    return booksLtWord;
 }
+let newBook = ' (nauja knyga)';
 
+//Console Output
 for(let catalog of bookCatalog) {
-    let booksInLtLang = pickLtBooksWord(catalog.books.length);
-    console.log(catalog.category + ' (' + catalog.books.length + booksInLtLang);
+    let booksLtWord = pickLtBooksWord(catalog.books.length);
+    console.log(catalog.category + ' (' + catalog.books.length + booksLtWord);
     console.log(':');
     for (let book of catalog.books) {
                 console.log('ISBN: ' + book.isbn);
