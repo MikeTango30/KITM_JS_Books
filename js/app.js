@@ -94,11 +94,11 @@ let bookCatalog =
 
 let newBook = ' (nauja knyga)';
 
-for(let catalog of bookCatalog) {
+function pickLtBooksWord(number) {
     let booksInLtLang = '';
-    switch (catalog.books.length % 10){
+    switch (number % 10){
         case 0:
-           booksInLtLang = ' knygų)';
+            booksInLtLang = ' knygų)';
             break;
         case 1:
             booksInLtLang = ' knyga)';
@@ -106,6 +106,11 @@ for(let catalog of bookCatalog) {
         default:
             booksInLtLang = ' knygos)';
     }
+    return booksInLtLang;
+}
+
+for(let catalog of bookCatalog) {
+    let booksInLtLang = pickLtBooksWord(catalog.books.length);
     console.log(catalog.category + ' (' + catalog.books.length + booksInLtLang);
     console.log(':');
     for (let book of catalog.books) {
