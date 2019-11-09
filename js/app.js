@@ -104,13 +104,13 @@ for(let catalog of bookCatalog) {
             console.log(catalog.category + ' (' + catalog.books.length + ' knygos)');
     }
     console.log(':');
-    for (let [, entries] of Object.entries(catalog.books)) {
-                console.log('ISBN: ' + entries.isbn);
-                entries.year === "2019" ?
-                    console.log('Leidimo metai: ' + entries.year + ' (nauja knyga)') :
-                    console.log('Leidimo metai: ' + entries.year);
-                console.log('Pavadinimas: ' + entries.title);
-                console.log('Puslapių skaičius: ' + entries.pages);
+    for (let [, book] of Object.entries(catalog.books)) {
+                console.log('ISBN: ' + book.isbn);
+                book.year === "2019" ?
+                    console.log('Leidimo metai: ' + book.year + ' (nauja knyga)') :
+                    console.log('Leidimo metai: ' + book.year);
+                console.log('Pavadinimas: ' + book.title);
+                console.log('Puslapių skaičius: ' + book.pages);
                 console.log(' ');
         }
     console.log('---------------------------');
