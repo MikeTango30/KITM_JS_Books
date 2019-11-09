@@ -104,7 +104,7 @@ for(let catalog of bookCatalog) {
             console.log(catalog.category + ' (' + catalog.books.length + ' knygos)');
     }
     console.log(':');
-    for (let [, book] of Object.entries(catalog.books)) {
+    for (let book of catalog.books) {
                 console.log('ISBN: ' + book.isbn);
                 book.year === "2019" ?
                     console.log('Leidimo metai: ' + book.year + ' (nauja knyga)') :
