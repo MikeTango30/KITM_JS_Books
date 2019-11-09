@@ -1,12 +1,12 @@
 'use strict';
 
-let bookCatalog = 
+let bookCatalog =
 [
     {
-        hard_science_fiction:
-        [ 
+        hard_science_fiction: //'Sunkioji mokslinė fantastika'
+        [
             {
-                book:  
+                book:
                 {
                 isbn: '978-7-5366-9293-0',
                 year: '2008',
@@ -14,8 +14,8 @@ let bookCatalog =
                 pages: '302'
                 }
             },
-            {        
-                book: 
+            {
+                book:
                 {
                 isbn: '978-1784971595',
                 year: '2008',
@@ -24,7 +24,7 @@ let bookCatalog =
                 }
             },
             {
-                book: 
+                book:
                 {
                 isbn: '978-0765377104',
                 year: '2010',
@@ -33,7 +33,7 @@ let bookCatalog =
                 }
             },
             {
-                book: 
+                book:
                 {
                 isbn: '0-575-08887-7',
                 year: '2010',
@@ -42,7 +42,7 @@ let bookCatalog =
                 }
             },
             {
-                book: 
+                book:
                 {
                 isbn: '0-575-08891-5',
                 year: '2012',
@@ -51,7 +51,7 @@ let bookCatalog =
                 }
             },
             {
-                book: 
+                book:
                 {
                 isbn: 	'9780765329516',
                 year: '2014',
@@ -63,7 +63,7 @@ let bookCatalog =
         space_opera:
         [
             {
-                book: 
+                book:
                 {
                 isbn: '978-0-316-33287-3',
                 year: '2019',
@@ -72,7 +72,7 @@ let bookCatalog =
                 },
             },
             {
-                book: 
+                book:
                 {
                 isbn: '978-0-7653-8888-9',
                 year: '2017',
@@ -81,7 +81,7 @@ let bookCatalog =
                 }
             },
             {
-                book: 
+                book:
                 {
                 isbn: '978-0-7653-8897-1',
                 year: '2018',
@@ -90,18 +90,19 @@ let bookCatalog =
                 }
             },
             {
-                book: 
+                book:
                 {
                 isbn: '978-1570900440',
                 year: '1997',
                 title: 'Birthright: The Book of Man',
                 pages: '287'
-                }   
+                }
             }
         ],
         military_science_fiction:
-        [   {
-                book: 
+        [
+            {
+                book:
                 {
                 isbn: '0-7653-0940-8',
                 year: '2005',
@@ -110,7 +111,7 @@ let bookCatalog =
                 }
             },
             {
-                book: 
+                book:
                 {
                 isbn: '9780765354068',
                 year: '2006',
@@ -122,16 +123,70 @@ let bookCatalog =
     }
 ];
 
-for(let i = 0; i < bookCatalog.length; i++){
-    let catalog = bookCatalog[i];
-    for(category of catalog){
-        console.log(category + ' (' + category.length + 'knygų)');
+for(let catalog of bookCatalog) {
+    for (let [category, entry] of Object.entries(catalog)){
+        console.log(' ');
+        entry.length === 0 || entry.length >= 10 ?
+            console.log(category + ' (' + entry.length + ' knygų)') :
+            console.log(category + ' (' + entry.length + ' knygos)');
         console.log(':');
-        for(book of category){
-            console.log('ISBN: ' + book.isbn);
-            console.log('Leidimo metai: ' + book.year);
-            console.log('Pavadinimas: ' + book.title);
-            console.log('Puslapių skaičius: ' + book.pages);
+        for (let [, properties] of Object.entries(Object(entry))) {
+            console.log('ISBN: ' + properties.book.isbn);
+            properties.book.year === "2019" ?
+                console.log('Leidimo metai: ' + properties.book.year + ' (nauja knyga)') :
+                console.log('Leidimo metai: ' + properties.book.year);
+            console.log('Pavadinimas: ' + properties.book.title);
+            console.log('Puslapių skaičius: ' + properties.book.pages);
+            console.log("------------------");
         }
     }
 }
+
+
+
+// for(let catalog of bookCatalog){
+//     console.log('Sunkioji mokslinė fantastika (' + catalog.hard_science_fiction.length + ' knygų)');
+//     console.log(':');
+//     for(let category of catalog.hard_science_fiction){
+//         console.log(category.book.isbn);
+//         console.log('ISBN: ' + category.book.isbn);
+//         if(category.book.year === "2019"){
+//             console.log('Leidimo metai: ' + category.book.year + ' (nauja knyga)');
+//         } else {
+//             console.log('Leidimo metai: ' + category.book.year);
+//         }
+//         console.log('Pavadinimas: ' + category.book.title);
+//         console.log('Puslapių skaičius: ' + category.book.pages);
+//         console.log("------------------");
+//     }
+//     console.log(' ');
+//     console.log('Kosmoso opera (' + catalog.space_opera.length + ' knygų)');
+//     console.log(':');
+//     for(let category of catalog.space_opera){
+//         console.log(category.book.isbn);
+//         console.log('ISBN: ' + category.book.isbn);
+//         if(category.book.year === "2019"){
+//             console.log('Leidimo metai: ' + category.book.year + ' (nauja knyga)');
+//         } else {
+//             console.log('Leidimo metai: ' + category.book.year);
+//         }
+//         console.log('Pavadinimas: ' + category.book.title);
+//         console.log('Puslapių skaičius: ' + category.book.pages);
+//         console.log("------------------");
+//     }
+//     console.log(' ');
+//     console.log('Karinė mokslinė fantastika (' + catalog.military_science_fiction.length + ' knygų)');
+//     console.log(':');
+//     for(let category of catalog.military_science_fiction){
+//         console.log(category.book.isbn);
+//         console.log('ISBN: ' + category.book.isbn);
+//         if(category.book.year === "2019"){
+//             console.log('Leidimo metai: ' + category.book.year + ' (nauja knyga)');
+//         } else {
+//             console.log('Leidimo metai: ' + category.book.year);
+//         }
+//         console.log('Pavadinimas: ' + category.book.title);
+//         console.log('Puslapių skaičius: ' + category.book.pages);
+//         console.log("------------------");
+//     }
+// }
