@@ -93,8 +93,6 @@ let bookCatalog =
     }
 ];
 
-
-
 //Pick correct Lt measure for books qty in category
 function pickLtBooksWord(number) {
     let booksLtWord = '';
