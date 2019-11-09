@@ -113,5 +113,6 @@ for(let catalog of bookCatalog) {
                 console.log('Puslapių skaičius: ' + entries.pages);
                 console.log(' ');
         }
-    console.log('---------------------------')
+    console.log('---------------------------');
+    console.log(' ');
 }
