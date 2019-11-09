@@ -92,22 +92,26 @@ let bookCatalog =
     }
 ];
 
+let newBook = ' (nauja knyga)';
+
 for(let catalog of bookCatalog) {
-    switch (catalog.books.length % 10) {
+    let booksInLtLang = '';
+    switch (catalog.books.length % 10){
         case 0:
-            console.log(catalog.category + ' (' + catalog.books.length + ' knygų)');
+           booksInLtLang = ' knygų)';
             break;
         case 1:
-            console.log(catalog.category + ' (' + catalog.books.length + ' knyga)');
+            booksInLtLang = ' knyga)';
             break;
         default:
-            console.log(catalog.category + ' (' + catalog.books.length + ' knygos)');
+            booksInLtLang = ' knygos)';
     }
+    console.log(catalog.category + ' (' + catalog.books.length + booksInLtLang);
     console.log(':');
     for (let book of catalog.books) {
                 console.log('ISBN: ' + book.isbn);
                 book.year === "2019" ?
-                    console.log('Leidimo metai: ' + book.year + ' (nauja knyga)') :
+                    console.log('Leidimo metai: ' + book.year + newBook) :
                     console.log('Leidimo metai: ' + book.year);
                 console.log('Pavadinimas: ' + book.title);
                 console.log('Puslapių skaičius: ' + book.pages);
