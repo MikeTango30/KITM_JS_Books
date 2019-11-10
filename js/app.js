@@ -106,6 +106,7 @@ function pickLtBooksWord(number) {
         default:
             booksLtWord = ' knygos)';
     }
+
     return booksLtWord;
 }
 let newBook = ' (nauja knyga)';
