@@ -94,37 +94,67 @@ let bookCatalog =
 ];
 
 //Pick correct Lt measure for books qty in category
-function pickLtBooksWord(number) {
-    let booksLtWord = '';
-    switch (number % 10){
-        case 0:
-            booksLtWord = ' knygų)';
-            break;
-        case 1:
-            booksLtWord = ' knyga)';
-            break;
-        default:
-            booksLtWord = ' knygos)';
-    }
-
-    return booksLtWord;
-}
+// function pickLtBooksWord(number) {
+//     let booksLtWord = '';
+//     switch (number % 10){
+//         case 0:
+//             booksLtWord = ' knygų)';
+//             break;
+//         case 1:
+//             booksLtWord = ' knyga)';
+//             break;
+//         default:
+//             booksLtWord = ' knygos)';
+//     }
+//
+//     return booksLtWord;
+// }
 let newBook = ' (nauja knyga)';
 
 //Console Output
+// for(let catalog of bookCatalog) {
+//     let booksLtWord = pickLtBooksWord(catalog.books.length);
+//     console.log(catalog.category + ' (' + catalog.books.length + booksLtWord);
+//     console.log(':');
+//     for (let book of catalog.books) {
+//                 console.log('ISBN: ' + book.isbn);
+//                 book.year === "2019" ?
+//                     console.log('Leidimo metai: ' + book.year + newBook) :
+//                     console.log('Leidimo metai: ' + book.year);
+//                 console.log('Pavadinimas: ' + book.title);
+//                 console.log('Puslapių skaičius: ' + book.pages);
+//                 console.log(' ');
+//         }
+//     console.log('---------------------------');
+//     console.log(' ');
+// }
+
+let searchString = (prompt("Ieškokite:"));
+let found = false;
+let nothingFound = true;
+searchString.toLowerCase();
+
 for(let catalog of bookCatalog) {
-    let booksLtWord = pickLtBooksWord(catalog.books.length);
-    console.log(catalog.category + ' (' + catalog.books.length + booksLtWord);
-    console.log(':');
     for (let book of catalog.books) {
-                console.log('ISBN: ' + book.isbn);
-                book.year === "2019" ?
-                    console.log('Leidimo metai: ' + book.year + newBook) :
-                    console.log('Leidimo metai: ' + book.year);
-                console.log('Pavadinimas: ' + book.title);
-                console.log('Puslapių skaičius: ' + book.pages);
-                console.log(' ');
+        for(let [key, value] of Object.entries(book)){
+            if (value.toLowerCase().search(searchString) >= 0) {
+                found = true;
+                nothingFound = false;
+            }
         }
-    console.log('---------------------------');
-    console.log(' ');
+        if (found) {
+            console.log('ISBN: ' + book.isbn);
+            book.year === "2019" ?
+                console.log('Leidimo metai: ' + book.year + newBook) :
+                console.log('Leidimo metai: ' + book.year);
+            console.log('Pavadinimas: ' + book.title);
+            console.log('Puslapių skaičius: ' + book.pages);
+            console.log(' ');
+
+            found = false;
+        }
+    }
+    if(nothingFound) {
+        console.log("Tokių blogų, neįdomių ir neskaitomų knygų čia nėra!");
+    }
 }
