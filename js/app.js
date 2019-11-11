@@ -1,7 +1,10 @@
 'use strict';
 
-//Books Repository
+//VAT
+const VAT = 1.21;
+const VAT_STRING = ((VAT - 1)*100).toFixed(0);
 
+//Books Repository
 let bookCatalog =
 [
     {
@@ -110,27 +113,38 @@ function pickLtBooksWord(number) {
 
     return booksLtWord;
 }
+
 let newBook = ' (nauja knyga)';
 
-//Console Output
-// for(let catalog of bookCatalog) {
-//     let booksLtWord = pickLtBooksWord(catalog.books.length);
-//     console.log(catalog.category + ' (' + catalog.books.length + booksLtWord);
-//     console.log(':');
-//     for (let book of catalog.books) {
-//                 console.log('ISBN: ' + book.isbn);
-//                 book.year === "2019" ?
-//                     console.log('Leidimo metai: ' + book.year + newBook) :
-//                     console.log('Leidimo metai: ' + book.year);
-//                 console.log('Pavadinimas: ' + book.title);
-//                 console.log('Puslapių skaičius: ' + book.pages);
-//                 console.log(' ');
-//         }
-//     console.log('---------------------------');
-//     console.log(' ');
-// }
+//book output abstraction
+function outputBook(book) {
+    if (book.price) {
+        console.log("Kaina: " + book.price + " (su PVM " + VAT_STRING + "%)");
+    }
+    console.log('ISBN: ' + book.isbn);
+    book.year === "2019" ?
+        console.log('Leidimo metai: ' + book.year + newBook) :
+        console.log('Leidimo metai: ' + book.year);
+    console.log('Pavadinimas: ' + book.title);
+    console.log('Puslapių skaičius: ' + book.pages);
+    console.log(' ');
+}
 
-//Feature: Search
+//Initial catalog Console Output
+console.log("INITIAL BOOK CATALOG OUTPUT");
+for(let catalog of bookCatalog) {
+    let booksLtWord = pickLtBooksWord(catalog.books.length);
+    console.log(catalog.category + ' (' + catalog.books.length + booksLtWord);
+    console.log(':');
+    for (let book of catalog.books) {
+                outputBook(book);
+        }
+    console.log('---------------------------');
+    console.log(' ');
+}
+//----------------------------------------------------------------------------------
+
+// //Feature: SEARCH
 // let searchString = (prompt("Ieškokite:"));
 // function findBook(bookCatalog, searchString){
 //     let found = false;
@@ -146,13 +160,7 @@ let newBook = ' (nauja knyga)';
 //                 }
 //             }
 //             if (found) {
-//                 console.log('ISBN: ' + book.isbn);
-//                 book.year === "2019" ?
-//                     console.log('Leidimo metai: ' + book.year + newBook) :
-//                     console.log('Leidimo metai: ' + book.year);
-//                 console.log('Pavadinimas: ' + book.title);
-//                 console.log('Puslapių skaičius: ' + book.pages);
-//                 console.log(' ');
+//                 outputBook(book);
 //
 //                 found = false;
 //             }
@@ -162,20 +170,12 @@ let newBook = ' (nauja knyga)';
 //         console.log("Tokių blogų, neįdomių ir neskaitomų knygų čia nėra!");
 //     }
 // }
-//
 // findBook(bookCatalog, searchString);
 
-//Surikiuoja knygas kategorijoje pagal(puslapių skaičių, ISBN, pavadinima) pagal vieną iš šitų
-// Pridėti PVM(21proc.)
-//Rasti pigiausią knygą
-//Rasti brangiausią knygą
-
-
-const PVM = 1.21;
-
+//add new property 'price', assign rng value and VAT
 for(let catalog of bookCatalog) {
     for (let book of catalog.books) {
-        Object.assign(book, { price: ((Math.random() * (0.60 - 1.35) + 20)*PVM).toFixed(2) });
+        Object.assign(book, { price: ((Math.random() * (0.00 - 5.55) + 20)*VAT).toFixed(2) });
     }
 }
 
@@ -195,63 +195,85 @@ for(let catalog of bookCatalog) {
         });
 }
 
-// //Console Output Sorted
-// for(let catalog of bookCatalog) {
-//     let booksLtWord = pickLtBooksWord(catalog.books.length);
-//     console.log(catalog.category + ' (' + catalog.books.length + booksLtWord);
-//     console.log(':');
-//     for (let book of catalog.books) {
-//                 console.log('ISBN: ' + book.isbn);
-//                 console.log("Kaina: " + book.price + " (su PVM)");
-//                 book.year === "2019" ?
-//                     console.log('Leidimo metai: ' + book.year + newBook) :
-//                     console.log('Leidimo metai: ' + book.year);
-//                 console.log('Pavadinimas: ' + book.title);
-//                 console.log('Puslapių skaičius: ' + book.pages);
-//                 console.log(' ');
-//         }
-//     console.log('---------------------------');
-//     console.log(' ');
-// }
-
-// find min/max priced book
-let bookPrices = [];
-
+//Console Output Sorted
+console.log("##### SORTED CATALOG OF BOOKS BY TITLE #####");
 for(let catalog of bookCatalog) {
+    let booksLtWord = pickLtBooksWord(catalog.books.length);
+    console.log(catalog.category + ' (' + catalog.books.length + booksLtWord);
+    console.log(':');
     for (let book of catalog.books) {
-        bookPrices.push(book.price);
-    }
+                outputBook(book);
+        }
+    console.log('---------------------------');
+    console.log(' ');
 }
 
-let cheapestBookPrice = Math.min(...bookPrices);
-let mostExpensiveBookPrice = Math.max(...bookPrices);
+// find min/max priced book
+function getPricesByCategory(bookCatalog) {
+    let bookPrices = [];
 
+    for(let book of bookCatalog) {
+            bookPrices.push(book.price);
+    }
 
-function findCheapestBook(bookCatalog, cheapestBookPrice) {
-    let found = false;
-    let nothingFound = true;
+    return bookPrices;
+}
 
+function getAllPrices(bookCatalog) {
+    let prices = [];
     for (let catalog of bookCatalog) {
         for (let book of catalog.books) {
-            for (let [, value] of Object.entries(book)) {
-                if (value.search(cheapestBookPrice) === cheapestBookPrice) {
-                    found = true;
-                    nothingFound = false;
-                }
-            }
-            if (found) {
-                console.log('ISBN: ' + book.isbn);
-                book.year === "2019" ?
-                    console.log('Leidimo metai: ' + book.year + newBook) :
-                    console.log('Leidimo metai: ' + book.year);
-                console.log('Pavadinimas: ' + book.title);
-                console.log('Puslapių skaičius: ' + book.pages);
-                console.log(' ');
+            prices.push(book.price);
+        }
+    }
 
-                found = false;
+    return prices;
+}
+
+function getBookByPrice(book, price) {
+    return book.price === price;
+}
+
+function outputBooksByPriceInCategory(bookCatalog, cheapest = true) {
+    let prices = [];
+    for (let catalog of bookCatalog) {
+        prices = getPricesByCategory(catalog.books);
+        let price = cheapest ?
+            Math.min(...prices).toString() :
+            Math.max(...prices).toString();
+        for(let book of catalog.books) {
+            if (getBookByPrice(book, price)) {
+                console.log(catalog.category);
+                console.log(":");
+                outputBook(book);
             }
         }
     }
 }
 
-console.log(findCheapestBook(bookCatalog, cheapestBookPrice));
+function outputBookByPrice(bookCatalog, cheapest = true) {
+    let prices = getAllPrices(bookCatalog);
+    for (let catalog of bookCatalog) {
+        for (let book of catalog.books) {
+            let price = cheapest ?
+                Math.min(...prices).toString() :
+                Math.max(...prices).toString();
+            if (getBookByPrice(book, price)) {
+                outputBook(book);
+            }
+        }
+    }
+}
+
+//Cheapest/Most Expensive output
+console.log("##### CHEAPEST BOOK IN EACH CATEGORY #####");
+outputBooksByPriceInCategory(bookCatalog);
+
+console.log("##### MOST EXPENSIVE BOOK IN EACH CATEGORY #####");
+outputBooksByPriceInCategory(bookCatalog, false);
+
+console.log("##### CHEAPEST BOOK OVERALL #####");
+outputBookByPrice(bookCatalog);
+
+console.log("##### MOST EXPENSIVE BOOK OVERALL #####");
+outputBookByPrice(bookCatalog, false);
