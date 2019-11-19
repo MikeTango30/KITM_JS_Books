@@ -130,47 +130,19 @@ function outputBook(book) {
     console.log(' ');
 }
 
-//Initial catalog Console Output
-console.log("INITIAL BOOK CATALOG OUTPUT");
-for(let catalog of bookCatalog) {
-    let booksLtWord = pickLtBooksWord(catalog.books.length);
-    console.log(catalog.category + ' (' + catalog.books.length + booksLtWord);
-    console.log(':');
-    for (let book of catalog.books) {
-                outputBook(book);
-        }
-    console.log('---------------------------');
-    console.log(' ');
-}
-//----------------------------------------------------------------------------------
-
-// //Feature: SEARCH
-// let searchString = (prompt("Ieškokite:"));
-// function findBook(bookCatalog, searchString){
-//     let found = false;
-//     let nothingFound = true;
-//     searchString.toLowerCase();
-//
-//     for(let catalog of bookCatalog) {
-//         for (let book of catalog.books) {
-//             for(let [, value] of Object.entries(book)){
-//                 if (value.toLowerCase().search(searchString) >= 0) {
-//                     found = true;
-//                     nothingFound = false;
-//                 }
-//             }
-//             if (found) {
+// //Initial catalog Console Output
+// console.log("INITIAL BOOK CATALOG OUTPUT");
+// for(let catalog of bookCatalog) {
+//     let booksLtWord = pickLtBooksWord(catalog.books.length);
+//     console.log(catalog.category + ' (' + catalog.books.length + booksLtWord);
+//     console.log(':');
+//     for (let book of catalog.books) {
 //                 outputBook(book);
-//
-//                 found = false;
-//             }
 //         }
-//     }
-//     if(nothingFound) {
-//         console.log("Tokių blogų, neįdomių ir neskaitomų knygų čia nėra!");
-//     }
+//     console.log('---------------------------');
+//     console.log(' ');
 // }
-// findBook(bookCatalog, searchString);
+//----------------------------------------------------------------------------------
 
 //add new property 'price', assign rng value and VAT
 for(let catalog of bookCatalog) {
@@ -195,18 +167,18 @@ for(let catalog of bookCatalog) {
         });
 }
 
-//Console Output Sorted
-console.log("##### SORTED CATALOG OF BOOKS BY TITLE #####");
-for(let catalog of bookCatalog) {
-    let booksLtWord = pickLtBooksWord(catalog.books.length);
-    console.log(catalog.category + ' (' + catalog.books.length + booksLtWord);
-    console.log(':');
-    for (let book of catalog.books) {
-                outputBook(book);
-        }
-    console.log('---------------------------');
-    console.log(' ');
-}
+// //Console Output Sorted
+// console.log("##### SORTED CATALOG OF BOOKS BY TITLE #####");
+// for(let catalog of bookCatalog) {
+//     let booksLtWord = pickLtBooksWord(catalog.books.length);
+//     console.log(catalog.category + ' (' + catalog.books.length + booksLtWord);
+//     console.log(':');
+//     for (let book of catalog.books) {
+//                 outputBook(book);
+//         }
+//     console.log('---------------------------');
+//     console.log(' ');
+// }
 
 // find min/max priced book
 function getPricesByCategory(bookCatalog) {
@@ -265,15 +237,90 @@ function outputBookByPrice(bookCatalog, cheapest = true) {
     }
 }
 
-//Cheapest/Most Expensive output
-console.log("##### CHEAPEST BOOK IN EACH CATEGORY #####");
-outputBooksByPriceInCategory(bookCatalog);
+// Console Output
+// //########################################################
+// //Cheapest/Most Expensive output
+// console.log("##### CHEAPEST BOOK IN EACH CATEGORY #####");
+// outputBooksByPriceInCategory(bookCatalog);
+//
+// console.log("##### MOST EXPENSIVE BOOK IN EACH CATEGORY #####");
+// outputBooksByPriceInCategory(bookCatalog, false);
+//
+// console.log("##### CHEAPEST BOOK OVERALL #####");
+// outputBookByPrice(bookCatalog);
+//
+// console.log("##### MOST EXPENSIVE BOOK OVERALL #####");
+// outputBookByPrice(bookCatalog, false);
 
-console.log("##### MOST EXPENSIVE BOOK IN EACH CATEGORY #####");
-outputBooksByPriceInCategory(bookCatalog, false);
+function select(selector) {
+    return document.querySelector(selector);
+}
 
-console.log("##### CHEAPEST BOOK OVERALL #####");
-outputBookByPrice(bookCatalog);
+function log(variable) {
+    return console.log(variable);
+}
 
-console.log("##### MOST EXPENSIVE BOOK OVERALL #####");
-outputBookByPrice(bookCatalog, false);
+//Accordion
+
+const headingOne = select('#headingOne button');
+const headingTwo = select('#headingTwo button');
+const headingThree = select('#headingThree button');
+
+let accordionHeadings = [];
+accordionHeadings.push(headingOne);
+accordionHeadings.push(headingTwo);
+accordionHeadings.push(headingThree);
+
+const collapseOne = select('#collapseOne .card-body');
+const collapseTwo = select('#collapseTwo .card-body');
+const collapseThree = select('#collapseThree .card-body');
+
+let accordionBodies = [];
+accordionBodies.push(collapseOne);
+accordionBodies.push(collapseTwo);
+accordionBodies.push(collapseThree);
+
+let i = 0;
+for (let catalog of bookCatalog) {
+    accordionHeadings[i].textContent = catalog.category;
+    const bookList =document.createElement('ul');
+    for(let book of catalog.books) {
+        let bookTitle = (book.title);
+        const bookInList = document.createElement('li');
+        bookInList.textContent = bookTitle;
+        accordionBodies[i].appendChild(bookInList);
+    }
+    i++;
+}
+
+//Feature: SEARCH
+//#######################################################
+const searchString = select('search.input');
+
+
+function findBook(bookCatalog, searchString){
+    let found = false;
+    let nothingFound = true;
+    searchString.toLowerCase();
+
+    for(let catalog of bookCatalog) {
+        for (let book of catalog.books) {
+            for(let [, value] of Object.entries(book)){
+                if (value.toLowerCase().search(searchString) >= 0) {
+                    found = true;
+                    nothingFound = false;
+                }
+            }
+            if (found) {
+                outputBook(book);
+
+                found = false;
+            }
+        }
+    }
+    if(nothingFound) {
+        console.log("Tokių blogų, neįdomių ir neskaitomų knygų čia nėra!");
+    }
+}
+findBook(bookCatalog, searchString);
+
